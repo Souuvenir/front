@@ -50,13 +50,6 @@ export const Nav = () => {
               >
                 New Contract
               </Link>
-              <Link
-                href='/employee-list'
-                className='dropdown_link'
-                onClick={() => setToggleDropDown(false)}
-              >
-                Employee list
-              </Link>
             </div>
           )}
         </div>
