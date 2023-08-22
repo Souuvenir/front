@@ -20,7 +20,7 @@ export const Nav = () => {
           height={30}
           className='object-contain'
         />
-        <p className='logo_text'>Registro Empleados</p>
+        <p className='logo_text'>Mantenedor Empleados</p>
       </Link>
       <div className='flex gap-3'>
         <div

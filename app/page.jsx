@@ -1,8 +1,4 @@
 import AddEmployee from "./employee/AddEmployee"
-import EmployeeList from "./employee/EmployeeList"
-import { ButtonDefault } from '@components/Button'
-
-
 
 const Home = () => {
   return (
@@ -11,8 +7,7 @@ const Home = () => {
             <span className="orange_gradient text-center">Home</span>
             <br className="max-md:hidden"/>
         </h1>
-        <EmployeeList/> 
-        <AddEmployee/>
+        <AddEmployee />
     </section>
   )
 }

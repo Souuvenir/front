@@ -1,10 +1,20 @@
 'use client'
 import { Dialog, Transition } from '@headlessui/react'
 import React, { Fragment, useState, useEffect } from 'react'
+import EmployeeList from './EmployeeList';
 
 const AddEmployee = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [employee, setEmployee] = useState({
+    name: "",
+    rut:"",
+    adress:"",
+    gender:"",
+    positionId:"",
+    areaId:""
+  });
+
+  const [responseEmployee, setResponseEmployee] = useState ({
     name: "",
     rut:"",
     adress:"",
@@ -63,17 +73,50 @@ const AddEmployee = () => {
   };
 
   function closeModal() {
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function openModal() {
-    setIsOpen(true)
+    setIsOpen(true);
   }
+
+  const EMPLOYEE_API_BASE_URL = "http://localhost:8080/employee/add";
+
+  const saveEmployee = async (e) =>{
+    e.preventDefault();
+    const response = await fetch(EMPLOYEE_API_BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(employee),
+    });
+    if (!response.ok) {
+      throw new Error("Something went wrong");
+    }
+    const _employee = await response.json();
+    setResponseEmployee(_employee);
+    reset(e);
+  };
+
+  const reset = (e) =>{
+    e.preventDefault();
+    setEmployee({
+      name: "",
+      rut:"",
+      adress:"",
+      gender:"",
+      positionId:"",
+      areaId:""
+    });
+    setIsOpen(false);
+  };
+
   return (
     <>
-    <div className='container mx-auto my-8'>
+    <div className='container mx-auto mt-4'>
       <div className='h-12'>
-        <button className='rounded bg-slate-600 text-white px-6 py-3' onClick={openModal}>Add Employee</button>
+        <button className='rounded bg-black text-white px-6 py-3 mr-8' onClick={openModal}>Add Employee</button>
       </div>
     </div>
     <Transition appear show={isOpen} as={Fragment}>
@@ -101,7 +144,7 @@ const AddEmployee = () => {
                       value={employee.name} 
                       name='fullName' 
                       className='h-10 w-96 border mt-2 px-2 py-2' 
-                      onChange={e => handleInputChange("positionId", e.target.value)}> 
+                      onChange={e => handleInputChange("name", e.target.value)}> 
                     </input>
                   </div>
                   <div className='h-14 my-4'> 
@@ -110,7 +153,7 @@ const AddEmployee = () => {
                       value={employee.adress} 
                       name='Adress' 
                       className='h-10 w-96 border mt-2 px-2 py-2' 
-                      onChange={e => handleInputChange("positionId", e.target.value)}>
+                      onChange={e => handleInputChange("adress", e.target.value)}>
                     </input>
                   </div>
                   <div className='h-14 my-4'> 
@@ -120,7 +163,7 @@ const AddEmployee = () => {
                       value={employee.rut} 
                       name='Rut' 
                       className='h-10 w-96 border mt-2 px-2 py-2' 
-                      onChange={e => handleInputChange("positionId", e.target.value)}>
+                      onChange={e => handleInputChange("rut", e.target.value)}>
                     </input>
                   </div>
                   <div className="h-14 my-4">
@@ -158,7 +201,7 @@ const AddEmployee = () => {
                       <select
                         value={employee.areaId}
                         name="areaId"
-                        onChange={e => handleInputChange("positionId", e.target.value)}
+                        onChange={e => handleInputChange("areaId", e.target.value)}
                         className="h-10 w-96 border mt-2 px-2 py-2"
                       >
                         <option value="" disabled>Select Position</option>
@@ -168,8 +211,8 @@ const AddEmployee = () => {
                       </select>
                     </div>
                   <div className='h-14 my-4 space-x-4 pt-4'>
-                    <button className='rounded text-white font-semibold bg-green-400 hover:bg-green-700 py-2 px-6'>Save</button>
-                    <button className='rounded text-white font-semibold bg-red-400 hover:bg-red-700 py-2 px-6'>Close</button>
+                    <button onClick={saveEmployee} className='rounded text-white font-semibold bg-green-400 hover:bg-green-700 py-2 px-6'>Save</button>
+                    <button onClick={reset} className='rounded text-white font-semibold bg-red-400 hover:bg-red-700 py-2 px-6'>Close</button>
                   </div>
                 </div>
               </div>
@@ -178,7 +221,8 @@ const AddEmployee = () => {
         </div>
       </Dialog>
     </Transition>
-    </>
+    <EmployeeList employee = {responseEmployee}/>
+  </>
   )
 }
 
