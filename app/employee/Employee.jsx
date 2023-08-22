@@ -2,7 +2,7 @@ import { ButtonDefault } from '@components/Button'
 import React from 'react'
 
 const formatRut = (rut) => {
-    const cleanedRut = rut.replace(/[^\dKk]/g, ''); // Elimina caracteres no numéricos ni 'K'
+    const cleanedRut = rut.replace(/[^\dKk]/g, ''); // formatea el rut con regex
     const digits = cleanedRut.slice(0, -1);
     const verifier = cleanedRut.slice(-1);
     

@@ -1,4 +1,6 @@
-import EmployeeList from "./employee-list/EmployeeList"
+import AddEmployee from "./employee/AddEmployee"
+import EmployeeList from "./employee/EmployeeList"
+import { ButtonDefault } from '@components/Button'
 
 
 
@@ -6,11 +8,11 @@ const Home = () => {
   return (
     <section className="w-full flex-center flex-col">
         <h1 className="head_text text-center">
-            Employee 
-            <span className="blue_gradient text-center">Home</span>
+            <span className="orange_gradient text-center">Home</span>
             <br className="max-md:hidden"/>
         </h1>
-        <EmployeeList/>
+        <EmployeeList/> 
+        <AddEmployee/>
     </section>
   )
 }

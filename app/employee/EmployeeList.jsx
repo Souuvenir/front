@@ -1,10 +1,10 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import Employee from './employee';
+import Employee from './Employee';
 
 
 const EmployeeList = () => {
-  const EMPLOYEE_API_BASE_URL = "http://localhost:8080/demo/all";
+  const EMPLOYEE_API_BASE_URL = "http://localhost:8080/employee/all";
   const [employees,setEmployees] = useState(null);
   const [loading,setLoading] = useState(true);
 
@@ -29,7 +29,7 @@ const EmployeeList = () => {
   },[]);
   
     return (
-    <div className="flex-between w-full mb-16 pt-3">
+    <div className="flex-between w-full pt-3">
         <div className="w-full">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden">

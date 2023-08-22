@@ -1,7 +1,7 @@
 
 import '@styles/global.css';
 import { Nav } from "@components/Nav"
-import EmployeeList from './employee-list/EmployeeList';
+import EmployeeList from './employee/EmployeeList';
 export const metadata = {
     title: "Employee Home",
     description: 'Proyecto test'
