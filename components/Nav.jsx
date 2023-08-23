@@ -14,13 +14,13 @@ export const Nav = () => {
     <nav className='flex-between w-full mb-16 pt-3'>
       <Link href="/" className='flex gap-2 flex-center'>
         <Image 
-          src="/assets/images/logo.svg"
+          src="/assets/images/employee.png"
           alt='Logo'
-          width={30}
-          height={30}
+          width={50}
+          height={50}
           className='object-contain'
         />
-        <p className='logo_text'>Mantenedor Empleados</p>
+        <p className='logo_text mt-3'>Mantenedor Empleados</p>
       </Link>
       <div className='flex gap-3'>
         <div
@@ -28,27 +28,27 @@ export const Nav = () => {
           style={{ cursor: 'pointer', position: 'relative' }}
         >
           <Image
-            src='/assets/images/logo.svg'
-            width={37}
-            height={37}
-            className='rounded-full'
+            src='/assets/images/gear-fill.svg'
+            width={30}
+            height={30}
+            className='rounded-full mb-2'
             alt='profile'
           />
           {toggleDropDown && (
             <div className='dropdown'>
               <Link
-                href='/create-employee'
+                href='#'
                 className='dropdown_link'
                 onClick={() => setToggleDropDown(false)}
               >
-                New employee
+                TBD
               </Link>
               <Link
-                href='/employee-list'
+                href='#'
                 className='dropdown_link'
                 onClick={() => setToggleDropDown(false)}
               >
-                New Contract
+                TBD
               </Link>
             </div>
           )}

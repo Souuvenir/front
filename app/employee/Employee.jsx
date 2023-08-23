@@ -1,4 +1,5 @@
 import React from 'react'
+import AddContract from '@app/contract/AddContract';
 
 const formatRut = (rut) => {
     const cleanedRut = rut.replace(/[^\dKk]/g, ''); // formatea el rut con regex
@@ -27,7 +28,8 @@ const Employee = ({ employee, deleteEmployee, editEmployee }) => {
         <button onClick={(e, id) => editEmployee(e, employee.id)} 
         className='rounded bg-black text-white px-6 py-3 mr-3 hover:text-teal-500 font-semibold'>Edit</button>
         <button onClick={(e, id) => deleteEmployee(e, employee.id)} 
-        className='rounded bg-black text-white px-6 py-3 hover:text-red-900 font-semibold'>Delete</button>
+        className='rounded bg-black text-white px-6 py-3 mr-3 hover:text-red-900 font-semibold'>Delete</button>
+        <AddContract employeeId={employee.id}/>
         </td>
     </tr>
   )
