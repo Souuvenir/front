@@ -252,7 +252,7 @@ const AddEmployee = () => {
                         onChange={e => handleInputChange("areaId", e.target.value)}
                         className="h-10 w-96 border mt-2 px-2 py-2"
                       >
-                        <option value="" disabled>Select Position</option>
+                        <option value="" disabled>Select Area</option>
                           {areaList?.map(option => (
                             <option key={option.id} value={option.id}>{option.area}</option>
                           ))}
