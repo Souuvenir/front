@@ -4,12 +4,13 @@ import Employee from './Employee';
 import EditEmployee from './EditEmployee';
 
 
-const EmployeeList = ({ employee }) => {
+const EmployeeList = ({ employee, filterId, filterField }) => {
   const EMPLOYEE_API_BASE_URL = "http://localhost:8080/employee/all";
   const [employees,setEmployees] = useState(null);
   const [loading,setLoading] = useState(true);
   const [employeeId, setEmployeeId] = useState(null);
   const [responseEmployee, setResponseEmployee] = useState(null);
+  const [originalEmployees, setOriginalEmployees] = useState([]);
   
   useEffect(() => {
     const fetchData = async () =>{
@@ -22,6 +23,7 @@ const EmployeeList = ({ employee }) => {
           },
         });
         const employees = await response.json();
+        setOriginalEmployees(employees)
         setEmployees(employees);
       } catch (error) {
         console.log(error);
@@ -30,6 +32,15 @@ const EmployeeList = ({ employee }) => {
    };
    fetchData();
   },[employee, responseEmployee]);
+
+  useEffect(() => {
+    if(filterField == 'filterAreaId') {
+      setEmployees(originalEmployees?.filter(employee => employee.areaId === parseInt(filterId)));
+    }
+    if(filterField == 'filterPositionId') {
+      setEmployees(originalEmployees?.filter(employee => employee.positionId === parseInt(filterId)));
+    }
+  },[filterId, filterField]);
   
   const DELETE_EMPLOYEE_API_BASE_URL = "http://localhost:8080/employee/delete";
   const deleteEmployee = (e, id) => {

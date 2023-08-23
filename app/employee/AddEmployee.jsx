@@ -5,6 +5,10 @@ import EmployeeList from './EmployeeList';
 
 const AddEmployee = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [filterId,setFilterId] = useState(null);
+  const [filterField,setFilterField] = useState(null);
+  const [originalFilterPositionId, setOriginalFilterPositionId] = useState('');
+  const [originalFilterAreaId, setOriginalFilterAreaId] = useState('');
   const [employee, setEmployee] = useState({
     name: "",
     rut:"",
@@ -72,6 +76,19 @@ const AddEmployee = () => {
     }));
   };
 
+  const handleFilterPositionChange = (value) => {
+    setFilterId(value);
+    setFilterField('filterPositionId');
+    setOriginalFilterAreaId(''); // Restablecer el valor del otro filtro
+  };
+
+  // Restablecer el valor del filtro de posición cuando se selecciona un filtro de área
+  const handleFilterAreaChange = (value) => {
+    setFilterId(value);
+    setFilterField('filterAreaId');
+    setOriginalFilterPositionId(''); // Restablecer el valor del otro filtro
+  };
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -115,10 +132,41 @@ const AddEmployee = () => {
   return (
     <>
     <div className='container mx-auto mt-4'>
-      <div className='h-12'>
-        <button className='rounded bg-black text-white px-6 py-3 ml-8' onClick={openModal}>Add Employee</button>
+      <div className='flex items-center justify-between'>
+        <div className='h-12'>
+          <button className='rounded bg-black text-white px-6 py-3 ml-8' onClick={openModal}>Add Employee</button>
+        </div>
+        <div className="h-14 flex">
+          <select
+            value={filterField === 'filterPositionId' ? filterId : originalFilterPositionId}
+            name="filterPositionId"
+            onChange={e => handleFilterPositionChange(e.target.value)}
+            className="h-10 w-96 border mt-2 px-2 py-2"
+          >
+            <option value="" disabled>Filter by Position</option>
+            {positionList?.map(option => (
+              <option key={option.id} value={option.id}>{option.position}</option>
+            ))}
+          </select>
+        </div>
+        
+        {/* Filtro de Área */}
+        <div className="h-14 flex">
+          <select
+            value={filterField === 'filterAreaId' ? filterId : originalFilterAreaId}
+            name="filterAreaId"
+            onChange={e => handleFilterAreaChange(e.target.value)}
+            className="h-10 w-96 border mt-2 px-2 py-2"
+          >
+            <option value="" disabled>Filter by Contract Type</option>
+            {areaList?.map(option => (
+              <option key={option.id} value={option.id}>{option.area}</option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
+
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className='fixed inset-0 z-10 overflow-y-auto' onClose={closeModal}>
         <div className='min-h-screen px-4 text-center'>
@@ -221,7 +269,7 @@ const AddEmployee = () => {
         </div>
       </Dialog>
     </Transition>
-    <EmployeeList employee = {responseEmployee}/>
+    <EmployeeList employee = {responseEmployee} filterId={filterId} filterField={filterField}/>
   </>
   )
 }
