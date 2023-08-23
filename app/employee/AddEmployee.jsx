@@ -158,7 +158,7 @@ const AddEmployee = () => {
             onChange={e => handleFilterAreaChange(e.target.value)}
             className="h-10 w-96 border mt-2 px-2 py-2"
           >
-            <option value="" disabled>Filter by Contract Type</option>
+            <option value="" disabled>Filter by Area</option>
             {areaList?.map(option => (
               <option key={option.id} value={option.id}>{option.area}</option>
             ))}
