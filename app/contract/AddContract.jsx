@@ -3,15 +3,17 @@ import { Dialog, Transition } from '@headlessui/react'
 
 const AddContract = ({employeeId}) => {
     const ADDCONTRACT_API_BASE_URL = "http://localhost:8080/contract/add";
+    const CONTRACT_TYPE_API_BASE_URL = "http://localhost:8080/contract-type/all";
     const EMPLOYEEID_API_BASE_URL = "http://localhost:8080/employee/get-by-id";
 
     const [isOpen, setIsOpen] = useState(false);
 
     const [contract, setContract] = useState({
       description: "",
-      start_date:"",
-      finish_date:"",
-      employee_id:""
+      startDate:"",
+      finishDate:"",
+      contractTypeId:0,
+      employeeId: employeeId
     });
 
     const [employee, setEmployee] = useState({
@@ -20,12 +22,30 @@ const AddContract = ({employeeId}) => {
       adress:"",
       gender:"",
       positionId:"",
-      areaId:""
+      areaId:"",
   });
 
+    const saveContract = async (e) =>{
+    e.preventDefault();
+    console.log(contract);
+    const response = await fetch(ADDCONTRACT_API_BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contract),
+    });
+    if (!response.ok) {
+      throw new Error("Something went wrong");
+    }
+    alert('contrato guardado');
+    reset(e);
+  };
+
+
     const handleInputChange = (field, value) => {
-        setEmployee(prevEmployee => ({
-        ...prevEmployee,
+        setContract(prevContract => ({
+        ...prevContract,
         [field]: value
         }));
     };
@@ -43,7 +63,7 @@ const AddContract = ({employeeId}) => {
     setIsOpen(false);
 
   };
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -64,6 +84,27 @@ const AddContract = ({employeeId}) => {
           fetchData();
       }
   }, [employeeId]);
+
+  const [contractTypeList,setContractTypeList] = useState(null);
+
+  useEffect(() => {
+    const fetchDataContract = async () => {
+      try {
+          const response = await fetch(CONTRACT_TYPE_API_BASE_URL, {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+              }
+          });
+          const contractType = await response.json();
+          setContractTypeList(contractType);
+      } catch (error) {
+          console.log(error);
+      }
+      
+    };
+    fetchDataContract();
+  }, []);
 
   return (
     <>
@@ -90,26 +131,26 @@ const AddContract = ({employeeId}) => {
                     <label className='block text-gray-600 text-sm font-normal'>Description</label>
                     <input 
                         type="text" 
-                        name='fullName' 
+                        name='description' 
                         className='h-10 w-96 border mt-2 px-2 py-2' 
-                        onChange={e => handleInputChange("name", e.target.value)}> 
+                        onChange={e => handleInputChange("description", e.target.value)}> 
                     </input>
                     </div>
                     <div className='h-14 my-4'> 
                     <label className='block text-gray-600 text-sm font-normal'>Start Date</label>
                     <input type="text"
-                        name='Adress' 
+                        name='startDate' 
                         className='h-10 w-96 border mt-2 px-2 py-2' 
-                        onChange={e => handleInputChange("adress", e.target.value)}>
+                        onChange={e => handleInputChange("startDate", e.target.value)}>
                     </input>
                     </div>
                     <div className='h-14 my-4'> 
                     <label className='block text-gray-600 text-sm font-normal'>Finish Date</label>
                     <input 
                         type="text" 
-                        name='Rut' 
+                        name='finishDate' 
                         className='h-10 w-96 border mt-2 px-2 py-2' 
-                        onChange={e => handleInputChange("rut", e.target.value)}>
+                        onChange={e => handleInputChange("finishDate", e.target.value)}>
                     </input>
                     </div>
                     <div className='h-14 my-4'> 
@@ -120,8 +161,21 @@ const AddContract = ({employeeId}) => {
                             className='h-10 w-96 border mt-2 px-2 py-2'>
                         </input>
                     </div>
+                    <div className='h-14 my-4'>
+                        <label className='block text-gray-600 text-sm font-normal'>Contract Type</label>
+                        <select
+                          name="contractTypeId"
+                          onChange={e => handleInputChange("contractTypeId", e.target.value)}
+                          className="h-10 w-96 border mt-2 px-2 py-2"
+                        >
+                          <option value="">Select Contract Type</option>
+                          {contractTypeList?.map(option => (
+                            <option key={option.id} value={option.id}>{option.name}</option>
+                          ))}
+                        </select>
+                    </div>
                     <div className='h-14 my-4 space-x-4 pt-4'>
-                    <button className='rounded text-white font-semibold bg-green-400 hover:bg-green-700 py-2 px-6'>Save</button>
+                    <button onClick={saveContract} className='rounded text-white font-semibold bg-green-400 hover:bg-green-700 py-2 px-6'>Save</button>
                     <button  onClick={reset} className='rounded text-white font-semibold bg-red-400 hover:bg-red-700 py-2 px-6'>Close</button>
                     </div>
                 </div>
