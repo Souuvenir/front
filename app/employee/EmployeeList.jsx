@@ -73,7 +73,7 @@ const EmployeeList = ({ employee, filterId, filterField }) => {
                       <th scope="col" className="px-6 py-4">Name</th>
                       <th scope="col" className="px-6 py-4">Address</th>
                       <th scope="col" className="px-6 py-4">Rut</th>
-                      <th scope="col" className="px-6 py-4">Actions</th>
+                      <th scope="col" className="px-6 py-4 text-center">Actions</th>
                   </tr>
                   </thead>
                   {!loading && (

@@ -132,9 +132,9 @@ const AddEmployee = () => {
   return (
     <>
     <div className='container mx-auto mt-4'>
-      <div className='flex items-center justify-between'>
+      <div className='flex justify-around'>
         <div className='h-12'>
-          <button className='rounded bg-black text-white px-6 py-3 ml-8' onClick={openModal}>Add Employee</button>
+          <button className='rounded bg-black text-white px-6 py-3' onClick={openModal}>Add Employee</button>
         </div>
         <div className="h-14 flex">
           <select
